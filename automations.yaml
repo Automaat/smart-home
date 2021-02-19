@@ -2,8 +2,10 @@
   alias: AP01 - Air Purifier turn on
   description: ''
   trigger:
-  - minutes: /15
-    platform: time_pattern
+  - above: '15'
+    entity_id: sensor.mi_air_purifier_air_quality_pm25
+    for: 0:01:00
+    platform: numeric_state
   condition:
   - condition: state
     entity_id: fan.mi_air_purifier_3_3h
