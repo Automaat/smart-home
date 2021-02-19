@@ -50,39 +50,39 @@ switch:
     switches:
       mi_air_purifier_led:
         friendly_name: "Display"
-        value_template: "{{ is_state_attr('fan.mi_air_purifier_3h', 'led', true) }}"
+        value_template: "{{ is_state_attr('fan.mi_air_purifier_3_3h', 'led', true) }}"
         turn_on:
           service: xiaomi_miio.fan_set_led_on
           data:
-            entity_id: fan.mi_air_purifier_3h
+            entity_id: fan.mi_air_purifier_3_3h
         turn_off:
           service: xiaomi_miio.fan_set_led_off
           data:
-            entity_id: fan.mi_air_purifier_3h
+            entity_id: fan.mi_air_purifier_3_3h
         icon_template: mdi:lightbulb-outline
       mi_air_purifier_child_lock:
         friendly_name: "Child lock"
-        value_template: "{{ is_state_attr('fan.mi_air_purifier_3h', 'child_lock', true) }}"
+        value_template: "{{ is_state_attr('fan.mi_air_purifier_3_3h', 'child_lock', true) }}"
         turn_on:
           service: xiaomi_miio.fan_set_child_lock_on
           data:
-            entity_id: fan.mi_air_purifier_3h
+            entity_id: fan.mi_air_purifier_3_3h
         turn_off:
           service: xiaomi_miio.fan_set_child_lock_off
           data:
-            entity_id: fan.mi_air_purifier_3h
+            entity_id: fan.mi_air_purifier_3_3h
         icon_template: "mdi:lock-outline"
       mi_air_purifier_buzzer:
         friendly_name: "Buzzer"
-        value_template: "{{ is_state_attr('fan.mi_air_purifier_3h', 'buzzer', true) }}"
+        value_template: "{{ is_state_attr('fan.mi_air_purifier_3_3h', 'buzzer', true) }}"
         turn_on:
           service: xiaomi_miio.fan_set_buzzer_on
           data:
-            entity_id: fan.mi_air_purifier_3h
+            entity_id: fan.mi_air_purifier_3_3h
         turn_off:
           service: xiaomi_miio.fan_set_buzzer_off
           data:
-            entity_id: fan.mi_air_purifier_3h
+            entity_id: fan.mi_air_purifier_3_3h
         icon_template: "mdi:volume-high"
 
 sensor:
@@ -94,22 +94,22 @@ sensor:
     sensors:
       mi_air_purifier_temp:
         friendly_name: "Temperature"
-        value_template: "{{ state_attr('fan.mi_air_purifier_3h', 'temperature') }}"
+        value_template: "{{ state_attr('fan.mi_air_purifier_3_3h', 'temperature') }}"
         unit_of_measurement: "°C"
         device_class: "temperature"
       mi_air_purifier_humidity:
         friendly_name: "Humidity"
-        value_template: "{{ state_attr('fan.mi_air_purifier_3h', 'humidity') }}"
+        value_template: "{{ state_attr('fan.mi_air_purifier_3_3h', 'humidity') }}"
         unit_of_measurement: "%"
         device_class: "humidity"
       mi_air_purifier_air_quality_pm25:
         friendly_name: "Air Quality Index (AQI) PM2.5 (μg/m³)"
-#        value_template: "{{ state_attr('fan.mi_air_purifier_3h', 'aqi') }}"
+#        value_template: "{{ state_attr('fan.mi_air_purifier_3_3h', 'aqi') }}"
         value_template: >-
-          {% if state_attr('fan.mi_air_purifier_3h', 'aqi') == None %}
+          {% if state_attr('fan.mi_air_purifier_3_3h', 'aqi') == None %}
             {{ 0 }}
           {% else %}
-            {{ state_attr('fan.mi_air_purifier_3h', 'aqi') }}
+            {{ state_attr('fan.mi_air_purifier_3_3h', 'aqi') }}
           {% endif %}
         unit_of_measurement: " "
 #        unit_of_measurement: "μg/m³"
@@ -117,9 +117,9 @@ sensor:
       mi_air_purifier_pm25_severity:
         friendly_name: "PM2.5 severity level"
         value_template: >-
-          {% if state_attr('fan.mi_air_purifier_3h', 'aqi') | int > 30 %}
+          {% if state_attr('fan.mi_air_purifier_3_3h', 'aqi') | int > 30 %}
             {{ 'critical' }}              
-          {% elif state_attr('fan.mi_air_purifier_3h', 'aqi') | int > 15 %}
+          {% elif state_attr('fan.mi_air_purifier_3_3h', 'aqi') | int > 15 %}
             {{ 'polluted' }}              
           {% else %}
             {{ 'clean' }}              
@@ -127,15 +127,15 @@ sensor:
         icon_template: "mdi:air-filter"
       mi_air_purifier_favorite_level:
         friendly_name: "Favorite Level"
-        value_template: "{{ state_attr('fan.mi_air_purifier_3h', 'favorite_level') }}"
+        value_template: "{{ state_attr('fan.mi_air_purifier_3_3h', 'favorite_level') }}"
       mi_air_purifier_avg_air_quality_pm25:
         friendly_name: "Average air quality (AvgAQI) PM2.5"
-        value_template: "{{ state_attr('fan.mi_air_purifier_3h', 'average_aqi') }}"
+        value_template: "{{ state_attr('fan.mi_air_purifier_3_3h', 'average_aqi') }}"
         unit_of_measurement: "μg/m³"
         icon_template: "mdi:weather-hazy"
       mi_air_purifier_use_time:
         friendly_name: "Time used"
-#        value_template: "{{ state_attr('fan.mi_air_purifier_3h', 'use_time') }}"
+#        value_template: "{{ state_attr('fan.mi_air_purifier_3_3h', 'use_time') }}"
         value_template: >
            " {% macro phrase(value, name) %}
             {%- set value = value | int %}
@@ -143,37 +143,37 @@ sensor:
             {{- '{} {}{}'.format(value, name, end) if value | int > 0 else '' }}
             {%- endmacro %}
             
-            {% set weeks = (state_attr('fan.mi_air_purifier_3h', 'use_time') | int / 604800) | int %}
-            {% set days = ((state_attr('fan.mi_air_purifier_3h', 'use_time') | int - (weeks * 604800)) / 86400) | int %}
-            {% set hours = ((state_attr('fan.mi_air_purifier_3h', 'use_time') | int - (weeks * 604800) - (days * 86400)) / 3600) | int %}
-            {% set minutes = ((state_attr('fan.mi_air_purifier_3h', 'use_time') | int - (weeks * 604800) - (days * 86400) - (hours * 3600)) / 60) | int %}
-            {% set seconds = (state_attr('fan.mi_air_purifier_3h', 'use_time') | int - (weeks * 604800) - (days * 86400) - (hours * 3600) - (minutes*60)) | int %}
+            {% set weeks = (state_attr('fan.mi_air_purifier_3_3h', 'use_time') | int / 604800) | int %}
+            {% set days = ((state_attr('fan.mi_air_purifier_3_3h', 'use_time') | int - (weeks * 604800)) / 86400) | int %}
+            {% set hours = ((state_attr('fan.mi_air_purifier_3_3h', 'use_time') | int - (weeks * 604800) - (days * 86400)) / 3600) | int %}
+            {% set minutes = ((state_attr('fan.mi_air_purifier_3_3h', 'use_time') | int - (weeks * 604800) - (days * 86400) - (hours * 3600)) / 60) | int %}
+            {% set seconds = (state_attr('fan.mi_air_purifier_3_3h', 'use_time') | int - (weeks * 604800) - (days * 86400) - (hours * 3600) - (minutes*60)) | int %}
             {{ [ phrase(weeks, 'week'), phrase(days, 'day'), phrase(hours, 'hr'), phrase(minutes, 'min'), phrase(seconds, 'sec') ] | select('!=','') | list | join(', ') }}"
 #        unit_of_measurement: "sec"
         icon_template: "mdi:heart-pulse"
       mi_air_purifier_filter_used:
         friendly_name: "Filter used"
-        value_template: "{{ state_attr('fan.mi_air_purifier_3h', 'filter_hours_used') }}"
+        value_template: "{{ state_attr('fan.mi_air_purifier_3_3h', 'filter_hours_used') }}"
         unit_of_measurement: "hrs"
         icon_template: "mdi:heart-off"
       mi_air_purifier_filter_remaining:
         friendly_name: "Filter remaining"
-        value_template: "{{ state_attr('fan.mi_air_purifier_3h', 'filter_life_remaining') }}"
+        value_template: "{{ state_attr('fan.mi_air_purifier_3_3h', 'filter_life_remaining') }}"
         unit_of_measurement: "%"
         icon_template: "mdi:heart-outline"
       mi_air_purifier_purify_volume:
         friendly_name: "Purified volume"
-        value_template: "{{ state_attr('fan.mi_air_purifier_3h', 'purify_volume') }}"
+        value_template: "{{ state_attr('fan.mi_air_purifier_3_3h', 'purify_volume') }}"
         unit_of_measurement: "m³"
         icon_template: "mdi:warehouse"
       mi_air_purifier_speed:
         friendly_name: "Motor speed"
-        value_template: "{{ state_attr('fan.mi_air_purifier_3h', 'motor_speed') }}"
+        value_template: "{{ state_attr('fan.mi_air_purifier_3_3h', 'motor_speed') }}"
         unit_of_measurement: "rpm"
         icon_template: "mdi:speedometer"
       mi_air_purifier_led_brightness:
         friendly_name: "Led brightness"
-        value_template: "{{ state_attr('fan.mi_air_purifier_3h', 'led_brightness') }}"
+        value_template: "{{ state_attr('fan.mi_air_purifier_3_3h', 'led_brightness') }}"
         unit_of_measurement: "lx"
         icon_template: "mdi:brightness-5"
 
@@ -186,25 +186,25 @@ binary_sensor:
     sensors:
       mi_air_purifier_mode_off:
         friendly_name: "Purifier Off"
-        value_template: "{{ is_state('fan.mi_air_purifier_3h', 'off') }}"
+        value_template: "{{ is_state('fan.mi_air_purifier_3_3h', 'off') }}"
       mi_air_purifier_mode_auto:
         friendly_name: "Purifier Auto mode"
-        value_template: "{{ is_state_attr('fan.mi_air_purifier_3h', 'mode', 0) and is_state('fan.mi_air_purifier_3h', 'on') }}"
+        value_template: "{{ is_state_attr('fan.mi_air_purifier_3_3h', 'mode', 0) and is_state('fan.mi_air_purifier_3_3h', 'on') }}"
       mi_air_purifier_mode_silent:
         friendly_name: "Purifier Silent mode"
-        value_template: "{{ is_state_attr('fan.mi_air_purifier_3h', 'mode', 1) and is_state('fan.mi_air_purifier_3h', 'on') }}"
+        value_template: "{{ is_state_attr('fan.mi_air_purifier_3_3h', 'mode', 1) and is_state('fan.mi_air_purifier_3_3h', 'on') }}"
       mi_air_purifier_mode_favorite:
         friendly_name: "Purifier Favorite mode"
-        value_template: "{{ is_state_attr('fan.mi_air_purifier_3h', 'mode', 2) and is_state('fan.mi_air_purifier_3h', 'on') }}"
+        value_template: "{{ is_state_attr('fan.mi_air_purifier_3_3h', 'mode', 2) and is_state('fan.mi_air_purifier_3_3h', 'on') }}"
       mi_air_purifier_mode_fan:
         friendly_name: "Purifier Fan mode"
-        value_template: "{{ is_state_attr('fan.mi_air_purifier_3h', 'mode', 3) and is_state('fan.mi_air_purifier_3h', 'on') }}"
+        value_template: "{{ is_state_attr('fan.mi_air_purifier_3_3h', 'mode', 3) and is_state('fan.mi_air_purifier_3_3h', 'on') }}"
       mi_air_purifier_mode_fan_1:
         friendly_name: "Purifier Fan mode 1"
-        value_template: "{{ is_state_attr('fan.mi_air_purifier_3h', 'mode', 3) and is_state_attr('fan.mi_air_purifier_3h', 'fan_level', 1) and is_state('fan.mi_air_purifier_3h', 'on') }}"
+        value_template: "{{ is_state_attr('fan.mi_air_purifier_3_3h', 'mode', 3) and is_state_attr('fan.mi_air_purifier_3_3h', 'fan_level', 1) and is_state('fan.mi_air_purifier_3_3h', 'on') }}"
       mi_air_purifier_mode_fan_2:
         friendly_name: "Purifier Fan mode 2"
-        value_template: "{{ is_state_attr('fan.mi_air_purifier_3h', 'mode', 3) and is_state_attr('fan.mi_air_purifier_3h', 'fan_level', 2) and is_state('fan.mi_air_purifier_3h', 'on') }}"
+        value_template: "{{ is_state_attr('fan.mi_air_purifier_3_3h', 'mode', 3) and is_state_attr('fan.mi_air_purifier_3_3h', 'fan_level', 2) and is_state('fan.mi_air_purifier_3_3h', 'on') }}"
       mi_air_purifier_mode_fan_3:
         friendly_name: "Purifier Fan mode 3"
-        value_template: "{{ is_state_attr('fan.mi_air_purifier_3h', 'mode', 3) and is_state_attr('fan.mi_air_purifier_3h', 'fan_level', 3) and is_state('fan.mi_air_purifier_3h', 'on') }}"
+        value_template: "{{ is_state_attr('fan.mi_air_purifier_3_3h', 'mode', 3) and is_state_attr('fan.mi_air_purifier_3_3h', 'fan_level', 3) and is_state('fan.mi_air_purifier_3_3h', 'on') }}"

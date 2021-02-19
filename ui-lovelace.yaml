@@ -81,7 +81,7 @@ views:
               action: call-service
               service: fan.turn_off
               service_data:
-                entity_id: fan.mi_air_purifier_3h
+                entity_id: fan.mi_air_purifier_3_3h
             style:
               top: 1%
               left: 6%
@@ -89,7 +89,7 @@ views:
               '--paper-item-icon-color': 'rgb(128, 128, 128)'
               '--paper-item-icon-active-color': 'rgb(255, 128, 0)'
           - type: state-icon
-            entity: fan.mi_air_purifier_3h
+            entity: fan.mi_air_purifier_3_3h
             title: More Info
             icon: 'mdi:dots-vertical'
             tap_action:
@@ -248,7 +248,7 @@ views:
               action: call-service
               service: fan.set_speed
               service_data:
-                entity_id: fan.mi_air_purifier_3h
+                entity_id: fan.mi_air_purifier_3_3h
                 speed: Auto
             style:
               top: 50%
@@ -264,7 +264,7 @@ views:
               action: call-service
               service: fan.set_speed
               service_data:
-                entity_id: fan.mi_air_purifier_3h
+                entity_id: fan.mi_air_purifier_3_3h
                 speed: Silent
             style:
               top: 50%
@@ -280,7 +280,7 @@ views:
               action: call-service
               service: fan.set_speed
               service_data:
-                entity_id: fan.mi_air_purifier_3h
+                entity_id: fan.mi_air_purifier_3_3h
                 speed: Fan
             style:
               top: 50%
@@ -296,7 +296,7 @@ views:
               action: call-service
               service: fan.set_speed
               service_data:
-                entity_id: fan.mi_air_purifier_3h
+                entity_id: fan.mi_air_purifier_3_3h
                 speed: Favorite
             style:
               top: 50%
@@ -317,7 +317,7 @@ views:
                   action: call-service
                   service: xiaomi_miio.fan_set_fan_level
                   service_data:
-                    entity_id: fan.mi_air_purifier_3h
+                    entity_id: fan.mi_air_purifier_3_3h
                     level: 1
                 style:
                   top: 64%
@@ -333,7 +333,7 @@ views:
                   action: call-service
                   service: xiaomi_miio.fan_set_fan_level
                   service_data:
-                    entity_id: fan.mi_air_purifier_3h
+                    entity_id: fan.mi_air_purifier_3_3h
                     level: 2
                 style:
                   top: 64%
@@ -349,7 +349,7 @@ views:
                   action: call-service
                   service: xiaomi_miio.fan_set_fan_level
                   service_data:
-                    entity_id: fan.mi_air_purifier_3h
+                    entity_id: fan.mi_air_purifier_3_3h
                     level: 3
                 style:
                   top: 64%
@@ -383,7 +383,7 @@ views:
                   action: call-service
                   service: script.favorite_up
                   service_data:
-                    entity_id: fan.mi_air_purifier_3h
+                    entity_id: fan.mi_air_purifier_3_3h
                     step: 2
                 style:
                   top: 66%
@@ -400,7 +400,7 @@ views:
                   action: call-service
                   service: script.favorite_down
                   service_data:
-                    entity_id: fan.mi_air_purifier_3h
+                    entity_id: fan.mi_air_purifier_3_3h
                     step: 1
                 style:
                   top: 66%
