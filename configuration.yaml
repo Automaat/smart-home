@@ -20,7 +20,7 @@ fan:
     host: !secret mi_air_host
     token: !secret mi_air_token
     model: zhimi.airpurifier.mb3
-    scan_interval: 120
+    scan_interval: 60
 input_select:
     mi_air_purifier_coverage:
       name: Coverage
