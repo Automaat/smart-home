@@ -1,0 +1,16 @@
+favorite_up:
+  sequence:
+  - service: xiaomi_miio.fan_set_favorite_level
+    data:
+      level: '{% if (state_attr(entity_id,''favorite_level'') + step | int) < 14 -%}
+        {{ state_attr(entity_id, ''favorite_level'') + step | int }} {%- else -%}
+        {{ 14 }} {%- endif %}'
+  mode: single
+favorite_down:
+  sequence:
+  - service: xiaomi_miio.fan_set_favorite_level
+    data:
+      level: '{% if (state_attr(entity_id,''favorite_level'') - step | int) > 0  -%}
+        {{ state_attr(entity_id, ''favorite_level'') - step | int }} {%- else -%}
+        {{ 0 }} {%- endif %}'
+  mode: single

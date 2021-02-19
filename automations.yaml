@@ -1,1 +1,161 @@
-[]
+- id: '1234567891011'
+  alias: AP01 - Air Purifier turn on
+  description: ''
+  trigger:
+  - above: '15'
+    entity_id: sensor.mi_air_purifier_air_quality_pm25
+    for: 0:01:00
+    platform: numeric_state
+  condition:
+  - condition: state
+    entity_id: fan.mi_air_purifier_3h
+    state: 'off'
+  action:
+  - data: {}
+    entity_id: fan.mi_air_purifier_3h
+    service: fan.turn_on
+  - data:
+      speed: Auto
+    entity_id: fan.mi_air_purifier_3h
+    service: fan.set_speed
+  - service: notify.notify
+    data:
+      message: Mi Air Purifier 3H turn on at {{ states('sensor.date_time') }}
+  mode: single
+- id: '1234567891012'
+  alias: AP02 - Air Purifier set favorite level based on PM2.5
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.mi_air_purifier_air_quality_pm25
+  condition:
+  - condition: state
+    entity_id: fan.mi_air_purifier_3h
+    state: 'on'
+  - condition: or
+    conditions:
+    - condition: and
+      conditions:
+      - condition: numeric_state
+        entity_id: sensor.mi_air_purifier_air_quality_pm25
+        above: '50'
+      - condition: not
+        conditions:
+        - condition: state
+          entity_id: sensor.mi_air_purifier_favorite_level
+          state: '14'
+    - condition: and
+      conditions:
+      - condition: numeric_state
+        entity_id: sensor.mi_air_purifier_air_quality_pm25
+        above: '35'
+        below: '51'
+      - condition: not
+        conditions:
+        - condition: state
+          entity_id: sensor.mi_air_purifier_favorite_level
+          state: '12'
+    - condition: and
+      conditions:
+      - condition: numeric_state
+        entity_id: sensor.mi_air_purifier_air_quality_pm25
+        above: '20'
+        below: '36'
+      - condition: not
+        conditions:
+        - condition: state
+          entity_id: sensor.mi_air_purifier_favorite_level
+          state: '9'
+    - condition: and
+      conditions:
+      - condition: numeric_state
+        entity_id: sensor.mi_air_purifier_air_quality_pm25
+        above: '5'
+        below: '21'
+      - condition: not
+        conditions:
+        - condition: state
+          entity_id: sensor.mi_air_purifier_favorite_level
+          state: '6'
+    - condition: and
+      conditions:
+      - condition: numeric_state
+        entity_id: sensor.mi_air_purifier_air_quality_pm25
+        below: '6'
+      - condition: not
+        conditions:
+        - condition: state
+          entity_id: sensor.mi_air_purifier_favorite_level
+          state: '4'
+  action:
+  - data:
+      speed: Favorite
+    entity_id: fan.mi_air_purifier_3h
+    service: fan.set_speed
+  - data:
+      level: '{% if states("sensor.mi_air_purifier_air_quality_pm25") | int > 50 -%}
+        14 {%- elif states("sensor.mi_air_purifier_air_quality_pm25") | int > 35 -%}
+        12 {%- elif states("sensor.mi_air_purifier_air_quality_pm25") | int > 20 -%}
+        9 {%- elif states("sensor.mi_air_purifier_air_quality_pm25") | int > 5 -%}
+        6 {%- else -%} 4 {%- endif %}'
+    entity_id: fan.mi_air_purifier_3h
+    service: xiaomi_miio.fan_set_favorite_level
+  - data: {}
+    entity_id: automation.air_purifier_translate_favorite_level_to_coverage
+    service: automation.turn_on
+  - data:
+      message: Mi Air Purifier 3H - PM2.5 = {{ states('sensor.mi_air_purifier_air_quality_pm25')
+        }} μg/m³ set favorite level to {{ state_attr('fan.mi_air_purifier_3h', 'favorite_level')
+        }} (coverage {{ states('input_select.mi_air_purifier_coverage') }}) at {{
+        states('sensor.date_time') }}
+    service: notify.notify
+  mode: single
+- id: '1234567891013'
+  alias: AP03 - Air Purifier turn off
+  description: ''
+  trigger:
+  - entity_id: sensor.mi_air_purifier_air_quality_pm25
+    for: 0:01:00
+    platform: numeric_state
+    below: '5'
+  condition:
+  - condition: state
+    entity_id: fan.mi_air_purifier_3h
+    state: 'on'
+  action:
+  - data: {}
+    entity_id: fan.mi_air_purifier_3h
+    service: fan.turn_off
+  - service: notify.notify
+    data:
+      message: Mi Air Purifier 3H turn off at {{ states('sensor.date_time') }}
+  mode: single
+- id: '1234567891014'
+  alias: AP04 - Air Purifier favorite level to coverage
+  description: ''
+  trigger:
+  - entity_id: fan.mi_air_purifier_3h
+    attribute: favorite_level
+    platform: state
+  condition: []
+  action:
+  - data:
+      option: "{% if is_state_attr('fan.mi_air_purifier_3h','favorite_level', 0) -%}
+         2-4 m² {%- elif is_state_attr('fan.mi_air_purifier_3h','favorite_level',
+         1) -%} 5-9 m² {%- elif is_state_attr('fan.mi_air_purifier_3h','favorite_level',
+         2) -%} 7-12 m² {%- elif is_state_attr('fan.mi_air_purifier_3h','favorite_level',
+         3) -%} 12-22 m² {%- elif is_state_attr('fan.mi_air_purifier_3h','favorite_level',
+         4) -%} 14-24 m² {%- elif is_state_attr('fan.mi_air_purifier_3h','favorite_level',
+         5) -%} 14-25 m² {%- elif is_state_attr('fan.mi_air_purifier_3h','favorite_level',
+         6) -%} 16-27 m² {%- elif is_state_attr('fan.mi_air_purifier_3h','favorite_level',
+         7) -%} 17-30 m² {%- elif is_state_attr('fan.mi_air_purifier_3h','favorite_level',
+         8) -%} 18-32 m² {%- elif is_state_attr('fan.mi_air_purifier_3h','favorite_level',
+         9) -%} 19-33 m² {%- elif is_state_attr('fan.mi_air_purifier_3h','favorite_level',
+         10) -%} 20-34 m² {%- elif is_state_attr('fan.mi_air_purifier_3h','favorite_level',
+         11) -%} 22-38 m² {%- elif is_state_attr('fan.mi_air_purifier_3h','favorite_level',
+         12) -%} 23-40 m² {%- elif is_state_attr('fan.mi_air_purifier_3h','favorite_level',
+         13) -%} 26-45 m² {%- elif is_state_attr('fan.mi_air_purifier_3h','favorite_level',
+         14) -%} 28-49 m² {%- else -%} {%- endif %}"
+    entity_id: input_select.mi_air_purifier_coverage
+    service: input_select.select_option
+  mode: single

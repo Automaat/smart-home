@@ -1,0 +1,426 @@
+title: My Awesome Home
+views:
+    # View tab title.
+  - title: Example
+    # Unique path for direct access /lovelace/${path}
+    path: example
+    # Each view can have a different theme applied. Theme should be defined in the frontend.
+    theme: dark-mode
+    # The cards to show on this view.
+    cards:
+        # The filter card will filter entities for their state
+      - type: entity-filter
+        entities:
+          - device_tracker.paulus
+          - device_tracker.anne_there
+        state_filter:
+          - 'home'
+        card:
+          type: glance
+          title: People that are home
+
+      - type: picture-elements
+        image: local/mi_air_purifier_3h.png
+        elements:
+          - type: conditional
+            conditions:
+              - entity: sensor.mi_air_purifier_pm25_severity
+                state: clean
+              - entity: binary_sensor.mi_air_purifier_mode_off
+                state: 'off'
+            elements:
+              - type: image
+                entity: sensor.mi_air_purifier_pm25_severity
+                title: PM2.5 severity level
+                tap_action:
+                  action: more-info
+                state_image:
+                  clean: local/mi_air_purifier_3h_clean.png
+                style:
+                  top: 34%
+                  left: 69%
+          - type: conditional
+            conditions:
+              - entity: sensor.mi_air_purifier_pm25_severity
+                state: polluted
+              - entity: binary_sensor.mi_air_purifier_mode_off
+                state: 'off'
+            elements:
+              - type: image
+                entity: sensor.mi_air_purifier_pm25_severity
+                title: PM2.5 severity level
+                tap_action:
+                  action: more-info
+                state_image:
+                  polluted: local/mi_air_purifier_3h_polluted.png
+                style:
+                  top: 34%
+                  left: 69%
+          - type: conditional
+            conditions:
+              - entity: sensor.mi_air_purifier_pm25_severity
+                state: critical
+              - entity: binary_sensor.mi_air_purifier_mode_off
+                state: 'off'
+            elements:
+              - type: image
+                entity: sensor.mi_air_purifier_pm25_severity
+                title: PM2.5 severity level
+                tap_action:
+                  action: more-info
+                state_image:
+                  critical: local/mi_air_purifier_3h_critical.png
+                style:
+                  top: 34%
+                  left: 69%
+          - type: state-icon
+            entity: binary_sensor.mi_air_purifier_mode_off
+            title: 'Off'
+            icon: 'mdi:power-standby'
+            tap_action:
+              action: call-service
+              service: fan.turn_off
+              service_data:
+                entity_id: fan.mi_air_purifier_3h
+            style:
+              top: 1%
+              left: 6%
+              transform: 'translate(-50%, 0)'
+              '--paper-item-icon-color': 'rgb(128, 128, 128)'
+              '--paper-item-icon-active-color': 'rgb(255, 128, 0)'
+          - type: state-icon
+            entity: fan.mi_air_purifier_3h
+            title: More Info
+            icon: 'mdi:dots-vertical'
+            tap_action:
+              action: more-info
+            style:
+              top: 1%
+              left: 36%
+              transform: 'translate(-50%, 0)'
+              '--paper-item-icon-color': 'rgb(128, 128, 128)'
+              '--paper-item-icon-active-color': 'rgb(128, 128, 128)'
+          - type: conditional
+            conditions:
+              - entity: binary_sensor.mi_air_purifier_mode_off
+                state: 'off'
+            elements:
+              - type: state-label
+                entity: sensor.mi_air_purifier_air_quality_pm25
+                title: PM2.5
+                tap_action:
+                  action: more-info
+                style:
+                  top: 19%
+                  left: 68.5%
+                  min-width: 40px
+                  min-height: 40px
+                  text-align: center
+                  font-size: 400%
+                  transform: 'translate(-50%, 0)'
+                  color: 'rgb(255,255,255)'
+              - type: state-label
+                entity: sensor.mi_air_purifier_temp
+                title: Temperature
+                tap_action:
+                  action: more-info
+                style:
+                  top: 32%
+                  left: 64%
+                  min-width: 40px
+                  min-height: 40px
+                  text-align: center
+                  font-size: 75%
+                  transform: 'translate(-50%, 0)'
+                  color: 'rgb(255,255,255)'
+              - type: state-label
+                entity: sensor.mi_air_purifier_humidity
+                title: Humidity
+                tap_action:
+                  action: more-info
+                style:
+                  top: 32%
+                  left: 71%
+                  min-width: 40px
+                  min-height: 40px
+                  text-align: center
+                  font-size: 75%
+                  transform: 'translate(-50%, 0)'
+                  color: 'rgb(255,255,255)'
+              - type: state-icon
+                entity: switch.mi_air_purifier_led
+                title: Display
+                tap_action:
+                  action: toggle
+                style:
+                  top: 15%
+                  left: 36%
+                  transform: 'translate(-50%, 0)'
+                  '--paper-item-icon-color': 'rgb(128, 128, 128)'
+                  '--paper-item-icon-active-color': 'rgb(255, 128, 0)'
+              - type: state-icon
+                entity: switch.mi_air_purifier_buzzer
+                title: Buzzer
+                tap_action:
+                  action: toggle
+                style:
+                  top: 29%
+                  left: 36%
+                  transform: 'translate(-50%, 0)'
+                  '--paper-item-icon-color': 'rgb(128, 128, 128)'
+                  '--paper-item-icon-active-color': 'rgb(255, 128, 0)'
+              - type: state-icon
+                entity: switch.mi_air_purifier_child_lock
+                title: Child lock
+                tap_action:
+                  action: toggle
+                style:
+                  top: 1%
+                  left: 26%
+                  transform: 'translate(-50%, 0)'
+                  '--paper-item-icon-color': 'rgb(128, 128, 128)'
+                  '--paper-item-icon-active-color': 'rgb(255, 128, 0)'
+              - type: state-label
+                entity: sensor.mi_air_purifier_filter_remaining
+                title: Filter remaining
+                tap_action:
+                  action: more-info
+                style:
+                  top: 10%
+                  left: 92%
+                  min-width: 40px
+                  min-height: 40px
+                  text-align: center
+                  font-size: 80%
+                  color: 'rgb(128,128,128)'
+          - type: conditional
+            conditions:
+              - entity: binary_sensor.mi_air_purifier_mode_off
+                state: 'on'
+            elements:
+              - type: state-label
+                entity: sensor.mi_air_purifier_air_quality_pm25
+                title: PM2.5
+                tap_action:
+                  action: more-info
+                style:
+                  top: 19%
+                  left: 68.5%
+                  min-width: 40px
+                  min-height: 40px
+                  text-align: center
+                  font-size: 400%
+                  transform: 'translate(-50%, 0)'
+                  color: 'rgb(128, 128, 128)'
+              - type: state-label
+                entity: sensor.mi_air_purifier_temp
+                title: Temperature
+                tap_action:
+                  action: more-info
+                style:
+                  top: 32%
+                  left: 64%
+                  min-width: 40px
+                  min-height: 40px
+                  text-align: center
+                  font-size: 75%
+                  transform: 'translate(-50%, 0)'
+                  color: 'rgb(128, 128, 128)'
+              - type: state-label
+                entity: sensor.mi_air_purifier_humidity
+                title: Humidity
+                tap_action:
+                  action: more-info
+                style:
+                  top: 32%
+                  left: 71%
+                  min-width: 40px
+                  min-height: 40px
+                  text-align: center
+                  font-size: 75%
+                  transform: 'translate(-50%, 0)'
+                  color: 'rgb(128, 128, 128)'
+          - type: state-icon
+            entity: binary_sensor.mi_air_purifier_mode_auto
+            title: Auto
+            icon: 'mdi:autorenew'
+            tap_action:
+              action: call-service
+              service: fan.set_speed
+              service_data:
+                entity_id: fan.mi_air_purifier_3h
+                speed: Auto
+            style:
+              top: 50%
+              left: 6%
+              transform: 'translate(-50%, 0)'
+              '--paper-item-icon-color': 'rgb(192, 192, 192)'
+              '--paper-item-icon-active-color': 'rgb(255, 128, 0)'
+          - type: state-icon
+            entity: binary_sensor.mi_air_purifier_mode_silent
+            title: Silent
+            icon: 'mdi:power-sleep'
+            tap_action:
+              action: call-service
+              service: fan.set_speed
+              service_data:
+                entity_id: fan.mi_air_purifier_3h
+                speed: Silent
+            style:
+              top: 50%
+              left: 16%
+              transform: 'translate(-50%, 0)'
+              '--paper-item-icon-color': 'rgb(192, 192, 192)'
+              '--paper-item-icon-active-color': 'rgb(255, 128, 0)'
+          - type: state-icon
+            entity: binary_sensor.mi_air_purifier_mode_fan
+            title: Fan
+            icon: 'mdi:fan'
+            tap_action:
+              action: call-service
+              service: fan.set_speed
+              service_data:
+                entity_id: fan.mi_air_purifier_3h
+                speed: Fan
+            style:
+              top: 50%
+              left: 26%
+              transform: 'translate(-50%, 0)'
+              '--paper-item-icon-color': 'rgb(192, 192, 192)'
+              '--paper-item-icon-active-color': 'rgb(255, 128, 0)'
+          - type: state-icon
+            entity: binary_sensor.mi_air_purifier_mode_favorite
+            title: Favorite
+            icon: 'mdi:heart'
+            tap_action:
+              action: call-service
+              service: fan.set_speed
+              service_data:
+                entity_id: fan.mi_air_purifier_3h
+                speed: Favorite
+            style:
+              top: 50%
+              left: 36%
+              transform: 'translate(-50%, 0)'
+              '--paper-item-icon-color': 'rgb(192, 192, 192)'
+              '--paper-item-icon-active-color': 'rgb(255, 128, 0)'
+          - type: conditional
+            conditions:
+              - entity: binary_sensor.mi_air_purifier_mode_fan
+                state: 'on'
+            elements:
+              - type: state-icon
+                entity: binary_sensor.mi_air_purifier_mode_fan_1
+                title: Fan level 1
+                icon: 'mdi:fan-speed-1'
+                tap_action:
+                  action: call-service
+                  service: xiaomi_miio.fan_set_fan_level
+                  service_data:
+                    entity_id: fan.mi_air_purifier_3h
+                    level: 1
+                style:
+                  top: 64%
+                  left: 11%
+                  transform: 'translate(-50%, 0)'
+                  '--paper-item-icon-color': 'rgb(192, 192, 192)'
+                  '--paper-item-icon-active-color': 'rgb(255, 128, 0)'
+              - type: state-icon
+                entity: binary_sensor.mi_air_purifier_mode_fan_2
+                title: Fan level 2
+                icon: 'mdi:fan-speed-2'
+                tap_action:
+                  action: call-service
+                  service: xiaomi_miio.fan_set_fan_level
+                  service_data:
+                    entity_id: fan.mi_air_purifier_3h
+                    level: 2
+                style:
+                  top: 64%
+                  left: 21%
+                  transform: 'translate(-50%, 0)'
+                  '--paper-item-icon-color': 'rgb(192, 192, 192)'
+                  '--paper-item-icon-active-color': 'rgb(255, 128, 0)'
+              - type: state-icon
+                entity: binary_sensor.mi_air_purifier_mode_fan_3
+                title: Fan level 3
+                icon: 'mdi:fan-speed-3'
+                tap_action:
+                  action: call-service
+                  service: xiaomi_miio.fan_set_fan_level
+                  service_data:
+                    entity_id: fan.mi_air_purifier_3h
+                    level: 3
+                style:
+                  top: 64%
+                  left: 31%
+                  transform: 'translate(-50%, 0)'
+                  '--paper-item-icon-color': 'rgb(192, 192, 192)'
+                  '--paper-item-icon-active-color': 'rgb(255, 128, 0)'
+          - type: conditional
+            conditions:
+              - entity: binary_sensor.mi_air_purifier_mode_favorite
+                state: 'on'
+            elements:
+              - type: state-label
+                entity: sensor.mi_air_purifier_favorite_level
+                title: Favorite level
+                tap_action:
+                  action: none
+                style:
+                  top: 64%
+                  left: 21%
+                  min-width: 40px
+                  min-height: 40px
+                  text-align: center
+                  font-size: 200%
+                  transform: 'translate(-50%, 0)'
+                  color: 'rgb(255, 128, 0)'
+              - type: icon
+                icon: 'mdi:plus'
+                title: Favorite level +
+                tap_action:
+                  action: call-service
+                  service: script.favorite_up
+                  service_data:
+                    entity_id: fan.mi_air_purifier_3h
+                    step: 2
+                style:
+                  top: 66%
+                  left: 30%
+                  min-width: 40px
+                  min-height: 40px
+                  transform: 'translate(-50%, 0)'
+                  color: 'rgb(192, 192, 192)'
+                  color_off: 'rgb(255, 128, 0)'
+              - type: icon
+                icon: 'mdi:minus'
+                title: Favorite level -
+                tap_action:
+                  action: call-service
+                  service: script.favorite_down
+                  service_data:
+                    entity_id: fan.mi_air_purifier_3h
+                    step: 1
+                style:
+                  top: 66%
+                  left: 16%
+                  min-width: 40px
+                  min-height: 40px
+                  transform: 'translate(-50%, 0)'
+                  color: 'rgb(192, 192, 192)'
+                  color_off: 'rgb(255, 128, 0)'
+              - type: state-label
+                entity: input_select.mi_air_purifier_coverage
+                title: Coverage
+                tap_action:
+                  action: none
+                style:
+                  top: 74%
+                  left: 23%
+                  min-width: 40px
+                  min-height: 40px
+                  text-align: center
+                  font-size: 100%
+                  transform: 'translate(-50%, 0)'
+                  color: 'rgb(255, 128, 0)'
