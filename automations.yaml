@@ -101,7 +101,7 @@
     entity_id: fan.mi_air_purifier_3_3h
     service: xiaomi_miio.fan_set_favorite_level
   - data: {}
-    entity_id: automation.air_purifier_translate_favorite_level_to_coverage
+    entity_id: automation.ap04_air_purifier_favorite_level_to_coverage
     service: automation.turn_on
   - data:
       message: Mi Air Purifier 3H - PM2.5 = {{ states('sensor.mi_air_purifier_air_quality_pm25')
