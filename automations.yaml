@@ -29,6 +29,9 @@
   - platform: state
     entity_id: sensor.mi_air_purifier_air_quality_pm25
   condition:
+  - condition: time
+    before: "22:00:00"
+    after: "07:00:00"
   - condition: state
     entity_id: fan.mi_air_purifier_3_3h
     state: 'on'
@@ -158,4 +161,28 @@
          14) -%} 28-49 m² {%- else -%} {%- endif %}"
     entity_id: input_select.mi_air_purifier_coverage
     service: input_select.select_option
+  mode: single
+- id: '1234567891015'
+  alias: AP02 - Air Purifier set silent mode if air is bad at night
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.mi_air_purifier_air_quality_pm25
+  condition:
+  - condition: time
+    before: "07:00:00"
+    after: "22:00:00"
+  - condition: state
+    entity_id: fan.mi_air_purifier_3_3h
+    state: 'on'
+  action:
+  - data:
+      speed: Silent
+    entity_id: fan.mi_air_purifier_3_3h
+    service: fan.set_speed
+  - data:
+      message: Mi Air Purifier 3H - PM2.5 = {{ states('sensor.mi_air_purifier_air_quality_pm25')
+        }} μg/m³ set to silent
+        states('sensor.date_time') }}
+    service: notify.notify
   mode: single
